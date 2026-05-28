@@ -15,6 +15,5 @@ See `docs/architecture_note.md`
 `python eval/run_evals.py`
 
 ## Environment Variables
-- `ANTHROPIC_API_KEY` — Claude API
-- `OPENAI_API_KEY` — Embeddings + DALL-E 3 + Moderation
+- `GEMINI_API_KEY_1` — Gemini API
 - `REDIS_URL` — Optional session persistence
