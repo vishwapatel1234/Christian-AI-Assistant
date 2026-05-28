@@ -1867,7 +1867,9 @@
         chatInput.value = '';
 
         // Check for Image generation requests
-        if (message.toLowerCase().startsWith('generate image') || message.toLowerCase().startsWith('draw') || message.toLowerCase().startsWith('picture of')) {
+        const imgTriggers = ['generate image', 'draw a', 'draw me', 'draw ', 'picture of', 'create image', 'make image', 'show me an image', 'sacred art of', 'paint a'];
+        const isImageRequest = imgTriggers.some(t => message.toLowerCase().startsWith(t));
+        if (isImageRequest) {
             // Pulsing image indicator
             const imgLoadingDiv = document.createElement('div');
             imgLoadingDiv.className = 'assistant-msg-container';
@@ -1900,13 +1902,15 @@
                         activeSession.id = 'session-' + Date.now();
                         sessionId = activeSession.id;
                     }
-                    addMessage('', false, true, data.url, data.prompt);
+                    // Show note if demo fallback mode
+                    const prompt = data.note ? `${data.prompt}\n\n🔔 ${data.note}` : data.prompt;
+                    addMessage('', false, true, data.url, prompt);
                 } else {
-                    addMessage(`❌ ${data.error}`, false);
+                    addMessage(`🎨 Image Generation Note: ${data.error}`, false);
                 }
             } catch (err) {
                 chatWindow.removeChild(imgLoadingDiv);
-                addMessage("❌ Failed to connect to image generator.", false);
+                addMessage("❌ Failed to connect to image generator. Please ensure the server is running.", false);
             }
             chatWindow.scrollTop = chatWindow.scrollHeight;
             return;
